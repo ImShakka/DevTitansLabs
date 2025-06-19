@@ -55,7 +55,7 @@ public class Turma {
              .append(this.semestre)
              .append(" (")
              .append(this.professor.getDescricao())
-             .append(")\n");
+             .append("):\n");
 
         for (int i = 0; i < this.alunos.size(); i++) {
             Aluno alunoAtual = this.alunos.get(i);
