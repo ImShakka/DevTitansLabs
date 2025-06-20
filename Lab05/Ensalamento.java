@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Ensalamento {
 
@@ -68,15 +69,30 @@ public class Ensalamento {
         return true;
     }
 
-    public void alocarTodas() {
-        for (Turma t : this.turmas) {
-            // aloca se a turma n tiver em uma sala ainda
-            if (this.getSala(t) == null) {
-                for (Sala s : this.salas) {
-                    // se tiver ok, para de procurar sala pra turma
-                    if (this.alocar(t, s)) {
-                        break; // perdao professor
-                    }
+    public void alocarTodas() { // arrumando o metodo para tentar melhorar a otimizacao do codigo
+        // criacao de copias pra nao alterar a ordem da lista original
+        ArrayList<Turma> turmasOrdenadas = new ArrayList<>(this.turmas);
+        ArrayList<Sala> salasOrdenadas = new ArrayList<>(this.salas);
+
+        // ordenacao das turmas em ordem descrescente do num de alunos
+        turmasOrdenadas.sort(Comparator.comparingInt(t -> ((Turma)t).numAlunos).reversed());
+
+        // ordenacao das salas em ordem crescente da capacidade
+        salasOrdenadas.sort(Comparator.comparingInt(s -> ((Sala)s).capacidade));
+
+        // iteracao, turmas maiores primeiro e tenta encontrar a menor sala
+        for (Turma turma : turmasOrdenadas) {
+            // se a turma ja foi alocada ele pula pra proxima
+            if (this.getSala(turma) != null) {
+                continue;
+            }
+
+            // iteracao, salas menores primeiro
+            for (Sala sala : salasOrdenadas) {
+                if (this.alocar(turma, sala)) {
+                    // se ele aloca, entao foi encontrada a melhor sala, que no caso eh a menor possivel.
+                    // entao ele para de procurar sala pra essa turma e vai pra proxima
+                    break; // desculpa professor :(
                 }
             }
         }
