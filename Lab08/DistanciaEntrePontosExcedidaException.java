@@ -1,3 +1,4 @@
+package br.edu.ufam.icomp.lab_excecoes;
 
 public class DistanciaEntrePontosExcedidaException extends RoverCaminhoException{
     public DistanciaEntrePontosExcedidaException() {

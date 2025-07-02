@@ -1,3 +1,4 @@
+package br.edu.ufam.icomp.lab_excecoes;
 
 public class CoordenadaForaDosLimitesException extends RoverCoordenadaException {
     
